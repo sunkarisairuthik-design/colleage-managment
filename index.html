@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CampusHub — Major Project</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="college-body">
+    <div id="authScreen" class="auth-screen">
+      <div class="auth-card">
+        <p class="eyebrow">Major Project</p>
+        <h1>CampusHub Login</h1>
+        <p>Choose a role and access the matching dashboard.</p>
+
+        <form id="loginForm" class="auth-form">
+          <select id="roleSelect">
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+          </select>
+          <input id="usernameInput" type="text" placeholder="Username" required />
+          <input id="passwordInput" type="password" placeholder="Password" required />
+          <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+
+        <p class="hint">Demo login: student / student123 or faculty / faculty123</p>
+        <p id="authError" class="error"></p>
+      </div>
+    </div>
+
+    <div id="appShell" class="college-shell hidden">
+      <aside class="college-sidebar">
+        <h2>CampusHub</h2>
+        <p>College Management UI</p>
+        <nav class="college-nav">
+          <a class="active" href="#" data-target="dashboard">Dashboard</a>
+          <a href="#" data-target="attendance">Attendance</a>
+          <a href="#" data-target="timetable">Timetable</a>
+          <a href="#" data-target="assignments">Assignments</a>
+          <a href="#" data-target="settings">Settings</a>
+        </nav>
+      </aside>
+
+      <main class="college-main">
+        <header class="college-topbar">
+          <div>
+            <p class="eyebrow">Major Project</p>
+            <h1 id="pageTitle">Dashboard</h1>
+          </div>
+          <div class="topbar-actions">
+            <span id="userBadge" class="user-badge"></span>
+            <button id="logoutBtn" class="btn btn-outline">Logout</button>
+          </div>
+        </header>
+
+        <section id="studentView" class="dashboard-section hidden">
+          <section class="dashboard-hero">
+            <div class="dashboard-hero-overlay"></div>
+            <div class="dashboard-hero-copy">
+              <p class="eyebrow">Student Dashboard</p>
+              <h2>Welcome back, <span id="studentProfileName">Student</span></h2>
+              <p>Access your timetable, assignments, learning progress and campus updates from one streamlined dashboard.</p>
+              <div class="dashboard-hero-actions">
+                <a class="btn btn-primary" href="#assignments">View Assignments</a>
+                <a class="btn btn-outline" href="#timetable">Open Timetable</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="stats-grid">
+            <article class="stat-card">
+              <p>My Progress</p>
+              <h3 id="studentAttendanceValue">92%</h3>
+              <span>Current course score</span>
+            </article>
+            <article class="stat-card">
+              <p>Upcoming Class</p>
+              <h3>Web Design</h3>
+              <span>10:30 AM</span>
+            </article>
+            <article class="stat-card">
+              <p>Assignments</p>
+              <h3>2</h3>
+              <span>1 due soon</span>
+            </article>
+            <article class="stat-card">
+              <p>Campus News</p>
+              <h3>3</h3>
+              <span>Read latest updates</span>
+            </article>
+          </section>
+
+          <section class="content-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Student Profile</p>
+                  <h2 id="studentProfileName">Student</h2>
+                </div>
+              </div>
+              <div id="studentProfileCard" class="profile-card"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Today’s Schedule</p>
+                  <h2>Classes</h2>
+                </div>
+              </div>
+              <ul class="notice-list">
+                <li>09:00 AM • Data Structures Lab</li>
+                <li>11:00 AM • Mathematics</li>
+                <li>02:00 PM • Design Studio</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Course Progress</p>
+                <h2>Study overview</h2>
+              </div>
+            </div>
+            <div id="studentProgressList" class="student-list"></div>
+          </section>
+
+          <section class="highlight-grid">
+            <article class="highlight-card">
+              <strong>Live support</strong>
+              <p>Chat with advisors, review exam preparation, and stay informed with campus announcements.</p>
+            </article>
+            <article class="highlight-card">
+              <strong>Upcoming deadlines</strong>
+              <p>Keep track of assignment due dates and exam schedules in one place.</p>
+            </article>
+            <article class="highlight-card">
+              <strong>Campus updates</strong>
+              <p>See the latest notices, events, and announcements directly from your dashboard.</p>
+            </article>
+          </section>
+        </section>
+
+        <section id="attendancePanel" class="panel hidden">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Attendance Summary</p>
+              <h2>Attendance history</h2>
+            </div>
+          </div>
+          <div id="attendanceHistoryList" class="student-list"></div>
+        </section>
+        <section id="placeholder" class="panel hidden">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Placeholder</p>
+              <h2 id="placeholderTitle">Page</h2>
+            </div>
+          </div>
+          <div id="placeholderContent">Select a section from the sidebar.</div>
+        </section>
+        
+        <section id="assignments" class="panel hidden">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Assignments</p>
+              <h2>Manage assignments</h2>
+            </div>
+          </div>
+          <form id="assignmentForm" class="assignment-form">
+            <input id="assignmentTitle" type="text" placeholder="Title" required />
+            <input id="assignmentDue" type="date" placeholder="Due date" required />
+            <textarea id="assignmentDesc" rows="3" placeholder="Description"></textarea>
+            <input id="assignmentId" type="hidden" />
+            <button type="submit" class="btn btn-primary">Save Assignment</button>
+          </form>
+          <div id="assignmentList" class="student-list"></div>
+          <div id="assignmentSubmissions" class="student-list hidden"></div>
+        </section>
+
+        <section id="timetable" class="panel hidden">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Timetable</p>
+              <h2>Weekly timetable</h2>
+            </div>
+          </div>
+          <form id="timetableForm" class="contact-form">
+            <select id="ttDay">
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+            </select>
+            <input id="ttTime" type="time" required />
+            <input id="ttSubject" type="text" placeholder="Subject" required />
+            <input id="ttId" type="hidden" />
+            <button type="submit" class="btn btn-primary">Save Slot</button>
+          </form>
+          <div id="timetableList" class="student-list"></div>
+        </section>
+
+        <section id="settings" class="panel hidden">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Settings</p>
+              <h2>Profile & Preferences</h2>
+            </div>
+          </div>
+          <form id="settingsForm" class="contact-form">
+            <input id="settingName" type="text" placeholder="Display name" />
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+          </form>
+        </section>
+
+        <section id="facultyView" class="dashboard-section hidden">
+          <!-- Faculty Dashboard (shown on login/dashboard) -->
+          <div id="facultyDashboard">
+            <section class="stats-grid">
+              <article class="stat-card">
+                <p>Total Students</p>
+                <h3 id="studentCount">0</h3>
+                <span>Recorded today</span>
+              </article>
+              <article class="stat-card">
+                <p>Average Attendance</p>
+                <h3 id="attendanceAverage">0%</h3>
+                <span>Live update</span>
+              </article>
+              <article class="stat-card">
+                <p>Faculty Tools</p>
+                <h3>3</h3>
+                <span>Attendance, marks, notices</span>
+              </article>
+              <article class="stat-card">
+                <p>Pending Review</p>
+                <h3 id="pendingReviews">0</h3>
+                <span>Assignments to check</span>
+              </article>
+            </section>
+
+            <section class="content-grid">
+              <div class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Faculty Overview</p>
+                    <h2>Dashboard</h2>
+                  </div>
+                </div>
+                <div id="facultyDashboardContent" class="student-list"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Quick Actions</p>
+                    <h2>Shortcuts</h2>
+                  </div>
+                </div>
+                <div class="tool-list">
+                  <article class="course-item">
+                    <strong>Post Notice</strong>
+                    <span>Share updates with students</span>
+                  </article>
+                  <article class="course-item">
+                    <strong>Review Submissions</strong>
+                    <span>Check recently submitted work</span>
+                  </article>
+                  <article class="course-item">
+                    <strong>Export Timetable</strong>
+                    <span>Save or print weekly schedule</span>
+                  </article>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Faculty Attendance (shown when clicking Attendance) -->
+          <div id="facultyAttendance" class="hidden">
+            <section class="content-grid">
+              <div class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Attendance</p>
+                    <h2>Mark attendance</h2>
+                  </div>
+                </div>
+                <div id="studentList" class="student-list"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Faculty Tools</p>
+                    <h2>Quick actions</h2>
+                  </div>
+                </div>
+                <div class="tool-list">
+                  <article class="course-item">
+                    <strong>Update Marks</strong>
+                    <span>Enter student scores</span>
+                  </article>
+                  <article class="course-item">
+                    <strong>Post Notice</strong>
+                    <span>Share a new announcement</span>
+                  </article>
+                  <article class="course-item">
+                    <strong>View Timetable</strong>
+                    <span>Check today’s schedule</span>
+                  </article>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
