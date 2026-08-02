@@ -758,10 +758,32 @@ textarea {
   background: #fff3f2;
   color: #b91c1c;
 }
+.timetable-day-group {
+  margin-bottom: 20px;
+}
+.timetable-day-header {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--primary-dark);
+}
+.timetable-day-list {
+  display: grid;
+  gap: 10px;
+}
+.timetable-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
 @media (max-width: 700px) {
   .timetable-card {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .timetable-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
