@@ -238,17 +238,54 @@ if (assignmentForm) {
 }
 
 function renderTimetable() {
-  if (!timetableListEl) return; const isFaculty = currentUser?.role==='faculty'; if (timetableForm) timetableForm.style.display = isFaculty ? 'grid' : 'none';
-  if (!timetable.length) { timetableListEl.innerHTML = '<div class="student-item"><strong>No timetable slots yet</strong></div>'; return; }
-  timetableListEl.innerHTML = timetable.map(t => `
-    <article class="timetable-card">
-      <div><div class="tt-time">${t.day} • ${t.time}</div><div class="tt-subject">${t.subject}</div></div>
-      ${isFaculty?`<div style="display:flex;gap:8px;align-items:center;"><button class="btn tt-edit" data-id="${t.id}">Edit</button><button class="btn tt-delete" data-id="${t.id}">Delete</button></div>`:''}
-    </article>
+  if (!timetableListEl) return;
+  const isFaculty = currentUser?.role === 'faculty';
+  if (timetableForm) timetableForm.style.display = isFaculty ? 'grid' : 'none';
+
+  if (!timetable.length) {
+    timetableListEl.innerHTML = '<div class="student-item"><strong>No timetable slots yet</strong></div>';
+    return;
+  }
+
+  const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const grouped = dayOrder.map(day => ({
+    day,
+    items: timetable.filter((slot) => slot.day === day).sort((a, b) => a.time.localeCompare(b.time))
+  })).filter(group => group.items.length);
+
+  timetableListEl.innerHTML = grouped.map((group) => `
+    <div class="timetable-day-group">
+      <div class="timetable-day-header">${group.day}</div>
+      <div class="timetable-day-list">
+        ${group.items.map(t => `
+          <article class="timetable-card">
+            <div>
+              <div class="tt-time">${t.time}</div>
+              <div class="tt-subject">${t.subject}</div>
+            </div>
+            ${isFaculty ? `<div class="timetable-actions"><button class="btn tt-edit" data-id="${t.id}">Edit</button><button class="btn tt-delete" data-id="${t.id}">Delete</button></div>` : ''}
+          </article>
+        `).join('')}
+      </div>
+    </div>
   `).join('');
+
   if (isFaculty) {
-    timetableListEl.querySelectorAll('.tt-edit').forEach(b=>b.addEventListener('click',()=>{ const id=b.dataset.id; const s=timetable.find(x=>String(x.id)===String(id)); if(!s) return; document.getElementById('ttDay').value=s.day; document.getElementById('ttTime').value=s.time; document.getElementById('ttSubject').value=s.subject; document.getElementById('ttId').value=s.id; }));
-    timetableListEl.querySelectorAll('.tt-delete').forEach(b=>b.addEventListener('click',()=>{ const id=b.dataset.id; timetable=timetable.filter(x=>String(x.id)!==String(id)); saveTimetable(); renderTimetable(); }));
+    timetableListEl.querySelectorAll('.tt-edit').forEach((b) => b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      const s = timetable.find((x) => String(x.id) === String(id));
+      if (!s) return;
+      document.getElementById('ttDay').value = s.day;
+      document.getElementById('ttTime').value = s.time;
+      document.getElementById('ttSubject').value = s.subject;
+      document.getElementById('ttId').value = s.id;
+    }));
+    timetableListEl.querySelectorAll('.tt-delete').forEach((b) => b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      timetable = timetable.filter((x) => String(x.id) !== String(id));
+      saveTimetable();
+      renderTimetable();
+    }));
   }
 }
 
